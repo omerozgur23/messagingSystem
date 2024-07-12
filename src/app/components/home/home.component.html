@@ -1,0 +1,26 @@
+<div
+  class="d-flex justify-content-center align-items-center"
+  style="min-height: 100vh"
+>
+  <p-button
+    (onClick)="navigateToInbox()"
+    label="Inbox"
+    text="true"
+    raised="true"
+    severity="success"
+  ></p-button>
+  <p-button
+    (onClick)="navigateToSendForm()"
+    label="Send Message"
+    text="true"
+    raised="true"
+    severity="info"
+  ></p-button>
+  <p-button
+    (onClick)="logout()"
+    label="Sign Out"
+    text="true"
+    raised="true"
+    severity="danger"
+  ></p-button>
+</div>

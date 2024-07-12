@@ -1,0 +1,103 @@
+<p-button
+  (onClick)="goHome()"
+  label="Back"
+  text="true"
+  raised="true"
+  severity="danger"
+></p-button>
+<div style="background: #f8faff">
+  <div class="pe-4 ps-4 py-4">
+    <div class="table-responsive tbodyDiv">
+      <p style="font-weight: bold">{{ tableTitle }}</p>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value=""
+          id="flexCheckUnchecked"
+          (change)="onCheckBoxChange($event)"
+        />
+        <label class="form-check-label" for="flexCheckUnchecked">
+          Unread
+        </label>
+      </div>
+      <table style="background: #fff" class="table table-sm table-hover">
+        <thead>
+          <tr class="align-middle">
+            @for (column of columns; track $index) {
+            <th scope="col">
+              {{ column.label }}
+            </th>
+            }
+            <th scope="col">View</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of tableData; track item; let i = $index) {
+          <tr>
+            @for (column of columns; track $index) {
+            <td [ngClass]="{ unread: isCritical(item, 'readed') }">
+              {{
+                column.field === "messageContent"
+                  ? truncateText(item[column.field], 5)
+                  : item[column.field]
+              }}
+            </td>
+            }
+            <td scope="row">
+              <button
+                data-bs-toggle="modal"
+                data-bs-target="#messageModal"
+                (click)="getMessageDetail(item.id)"
+              >
+                <img
+                  [title]="'messageDetail'"
+                  src="/assets/images/view.svg"
+                  alt=""
+                />
+              </button>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="messageModal"
+  tabindex="-1"
+  aria-labelledby="messageModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="messageModalLabel">Message</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Sender:</strong> {{ messageDetail.senderUsername }}</p>
+        <p><strong>Content:</strong> {{ messageDetail.messageContent }}</p>
+        <p><strong>Date:</strong> {{ messageDetail.sendingDate }}</p>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+          (click)="onModalClose()"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
